@@ -1,7 +1,6 @@
-tk
+# Requirements for the project
 pyttsx3
 speechrecognition
 pyaudio
-Pillow
 wikipedia
 

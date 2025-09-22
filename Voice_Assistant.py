@@ -1,4 +1,4 @@
-import tkinter as tk
+# import tkinter as tk
 from logging import exception
 from time import strftime
 import pyttsx3
