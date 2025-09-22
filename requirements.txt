@@ -1,0 +1,7 @@
+tk
+pyttsx3
+speechrecognition
+pyaudio
+Pillow
+wikipedia
+
