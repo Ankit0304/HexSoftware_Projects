@@ -18,6 +18,7 @@ def say(text):
     engine.setProperty('rate', 150)
     engine.say(text)
     engine.runAndWait()
+    print(text)
     
 def wishMe():
     hour = datetime.datetime.now().hour
