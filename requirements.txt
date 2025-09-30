@@ -1,6 +1,11 @@
-# Requirements for the project
+# Requirements for the Voice Assistant project
 pyttsx3
 speechrecognition
 pyaudio
 wikipedia
 
+
+# Requirements for the Expense Tracker project
+tkinter
+tkcalendar
+reportlab
