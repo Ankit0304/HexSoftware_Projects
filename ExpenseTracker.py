@@ -7,7 +7,6 @@ import tkinter.ttk as ttk
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 
-
 connection = sqlite3.connect("Finance.db")
 cursor = connection.cursor()
 connection.execute(
@@ -15,11 +14,9 @@ connection.execute(
 )
 connection.commit()
 
-
 root = Tk()
 root.title('Personal Finance Tracker')
 root.geometry('1000x700')
-# root.resizable(False, False)
 
 desc = StringVar()
 amnt = DoubleVar()
@@ -29,16 +26,13 @@ MoP = StringVar(value='Cash')
 main_frame = Frame(root, bg="#f7fafc")
 main_frame.pack(fill=BOTH, expand=True)
 
-
 title_frame = Frame(main_frame, bg="#3867d6", height=50)
 title_frame.pack(fill=X, side=TOP)
 Label(title_frame, text='Personal Finance Tracker', font=('Segoe UI', 20, 'bold'), fg="#fff", bg="#3867d6").pack(padx=10, pady=10)
 
-# SPLIT LEFT (Data Entry) | RIGHT (Table/Stats)
 content_frame = Frame(main_frame, bg="#f7fafc")
 content_frame.pack(fill=BOTH, expand=True, padx=10, pady=10)
 
-# LEFT -- Expense Entry
 left_frame = LabelFrame(content_frame, text="Add / Edit Expense", bg="#f7fafc", font=('Segoe UI', 13, 'bold'), width=330, relief=RIDGE)
 left_frame.pack(side=LEFT, fill=Y, padx=(0,12), pady=2)
 
@@ -58,7 +52,6 @@ Entry(left_frame, font=('Segoe UI', 11), textvariable=amnt).pack(fill=X, padx=12
 Label(left_frame, text='Payment Mode:', bg="#f7fafc", font=('Segoe UI', 11)).pack(anchor='w', padx=12, pady=(10,2))
 OptionMenu(left_frame, MoP, *['Cash', 'Cheque', 'Credit Card', 'Debit Card', 'UPI']).pack(fill=X, padx=12, pady=2)
 
-# Entry Action Buttons
 entry_btn_frame = Frame(left_frame, bg="#f7fafc")
 entry_btn_frame.pack(fill=X, padx=12, pady=18)
 
@@ -119,7 +112,6 @@ def reset_search():
 
 actions_frame = Frame(right_frame, bg="#f7fafc")
 actions_frame.pack(fill=X, padx=5, pady=5)
-
 
 Button(actions_frame, text="Edit", command=lambda: edit_expense(), font=('Segoe UI', 11), width=10, bg="#fd9644", fg="white", relief=FLAT).pack(side=LEFT, padx=3)
 Button(actions_frame, text="Delete", command=lambda: remove_expense(), font=('Segoe UI', 11), width=10, bg="#eb3b5a", fg="white", relief=FLAT).pack(side=LEFT, padx=3)
@@ -212,13 +204,11 @@ def edit_expense():
     if not table.selection():
         mb.showerror('No expense selected!', 'You have not selected any expense in the table for us to edit; please do that!')
         return
-
     view_expense_details()
 
     def confirm_edit():
         current_selected_expense = table.item(table.focus())
         contents = current_selected_expense['values']
-
         try:
             connection.execute('UPDATE Finance SET Date = ?, Category = ?, Description = ?, Amount = ?, ModeOfPayment = ? WHERE ID = ?',
                                (dt.datetime.strptime(date.get(), "%m/%d/%y").strftime("%Y-%m-%d"),
@@ -230,9 +220,7 @@ def edit_expense():
             mb.showinfo('Data edited', 'We have updated the data and stored it in the database as you wanted')
         except sqlite3.Error as e:
             mb.showerror('Database Error', f'An error occurred while editing the expense: {e}')
-
         add_expense_btn.config(text="Add Expense", command=lambda: add_another_expense(), bg="#20bf6b")
-
     add_expense_btn.config(text="Confirm Edit", command=confirm_edit, bg="#fd9644")
 
 def selected_expenses_to_words():
@@ -283,7 +271,7 @@ def generate_transaction_pdf():
 def update_total_transaction():
     try:
         total = connection.execute('SELECT SUM(Amount) FROM Finance').fetchone()[0]
-        total = total if total else 0  # If no transactions exist, set total to 0
+        total = total if total else 0 
         total_amount_label.config(text=f"Total Transactions: ₹{total:.2f}")
     except sqlite3.Error as e:
         mb.showerror('Database Error', f'An error occurred while updating the total transactions: {e}')
